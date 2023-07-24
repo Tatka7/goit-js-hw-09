@@ -21,10 +21,11 @@ const options = {
     minuteIncrement: 1,
     onClose(selectedDates) {
       if (selectedDates[0] <= Date.now()) {
-        Notify.warning('Please choose a date in the future!');
+        Notify.failure('Please choose a date in the future!');
         elems.startBtn.setAttribute('disabled', '');
         return;
       }
+      
       elems.startBtn.removeAttribute('disabled');
       selectedDate = selectedDates[0];
     },
@@ -46,16 +47,7 @@ function onClick() {
 }
 
 function formatTimeValue(value) { 
-  return value.toString().padStart(2, "0");
-}
-
-function resetTimer(value) {
-  const { days, hours, minutes, seconds } = value;
-
-  elems.daysEl.textContent = formatTimeValue(days);
-  elems.hoursEl.textContent = formatTimeValue(hours);
-  elems.minutesEl.textContent = formatTimeValue(minutes);
-  elems.secondsEl.textContent = formatTimeValue(seconds);
+  return value.toString().padStart(2, 0);
 }
 
 function convertMs(ms) {
@@ -75,4 +67,13 @@ function convertMs(ms) {
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
+}
+
+function resetTimer(value) {
+  const { days, hours, minutes, seconds } = value;
+
+  elems.daysEl.textContent = formatTimeValue(days);
+  elems.hoursEl.textContent = formatTimeValue(hours);
+  elems.minutesEl.textContent = formatTimeValue(minutes);
+  elems.secondsEl.textContent = formatTimeValue(seconds);
 }
